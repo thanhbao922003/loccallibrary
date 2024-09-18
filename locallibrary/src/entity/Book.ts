@@ -27,12 +27,9 @@ export class Book {
   @OneToMany(() => BookInstance, (bookInstance: BookInstance) => bookInstance.book)
   bookInstances!: BookInstance[];
 
-  constructor(bookData: Partial<Book>) {
-    this.title = bookData.title ?? '';
-    this.summary = bookData.summary ?? '';
-    this.isbn = bookData.isbn ?? '';
-    this.author = bookData.author ?? new Author({}); 
-    this.genres = bookData.genres ?? [];
-    this.bookInstances = bookData.bookInstances ?? [];
+  constructor(bookData?: Partial<Book>) {
+    this.title = bookData?.title ?? '';
+    this.summary = bookData?.summary ?? '';
+    this.isbn = bookData?.isbn ?? '';
   }
 }

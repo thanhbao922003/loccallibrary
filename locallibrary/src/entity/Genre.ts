@@ -12,8 +12,7 @@ export class Genre {
   @ManyToMany(() => Book, (book) => book.genres)
   books!: Book[];
 
-  constructor(genreData: Partial<Genre>) {
-    this.name = genreData.name ?? '';
-    this.books = genreData.books ?? [];
+  constructor(genreData?: Partial<Genre>) {
+    this.name = genreData?.name ?? '';
   }
 }
