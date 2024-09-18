@@ -10,7 +10,9 @@
     "plugin:node/recommended"
   ],
   "parserOptions": {
-    "project": "./tsconfig.json"
+    "project": "./tsconfig.json",
+    "ecmaVersion": 2020,
+    "sourceType": "module"
   },
   "rules": {
     "@typescript-eslint/explicit-member-accessibility": "warn",

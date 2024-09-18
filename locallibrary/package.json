@@ -1,11 +1,11 @@
 {
-  "name": "--use-npm",
+  "name": "locallibrary",
   "version": "0.0.0",
   "scripts": {
     "build": "npx ts-node build.ts",
     "lint": "npx eslint --ext .ts src/",
     "lint:tests": "npx eslint --ext .ts spec/",
-    "start": "node -r module-alias/register ./dist --env=production",
+    "start": "node -r module-alias/register ./dist/src/index.js --env=production",
     "dev": "nodemon",
     "test": "nodemon --config ./spec/nodemon.json",
     "test:no-reloading": "npx ts-node --files -r tsconfig-paths/register ./spec"
@@ -21,13 +21,15 @@
     "exec": "./node_modules/.bin/ts-node --files -r tsconfig-paths/register ./src"
   },
   "_moduleAliases": {
-    "@src": "dist"
+    "@src": "dist/src"
   },
   "engines": {
     "node": ">=8.10.0"
   },
   "dependencies": {
+    "@types/mongoose": "^5.11.97",
     "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.6",
     "dotenv": "^16.4.5",
     "express": "^4.21.0",
@@ -40,11 +42,18 @@
     "jsonwebtoken": "^9.0.2",
     "module-alias": "^2.2.3",
     "moment": "^2.30.1",
+    "mongodb": "^5.9.2",
+    "mongoose": "^8.6.3",
     "morgan": "^1.10.0",
-    "ts-command-line-args": "^2.5.1"
+    "mysql2": "^3.11.3",
+    "reflect-metadata": "^0.2.2",
+    "ts-command-line-args": "^2.5.1",
+    "typeorm": "^0.3.20"
   },
   "devDependencies": {
+    "@eslint/js": "^9.10.0",
     "@types/bcrypt": "^5.0.2",
+    "@types/bcryptjs": "^2.4.6",
     "@types/cookie-parser": "^1.4.7",
     "@types/express": "^4.17.21",
     "@types/find": "^0.2.4",
@@ -61,11 +70,13 @@
     "eslint-plugin-node": "^11.1.0",
     "find": "^0.3.0",
     "fs-extra": "^11.2.0",
+    "globals": "^15.9.0",
     "jasmine": "^5.3.0",
     "nodemon": "^3.1.4",
     "supertest": "^7.0.0",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
-    "typescript": "^5.6.2"
+    "typescript": "^5.6.2",
+    "typescript-eslint": "^8.6.0"
   }
 }
