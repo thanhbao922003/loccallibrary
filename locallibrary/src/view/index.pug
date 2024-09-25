@@ -1,0 +1,39 @@
+extends layout
+
+block content
+  .container
+    .sidebar
+      a(href='/') #{t('home.welcome')}
+      hr
+      a(href='/books') #{t('home.book')}
+      br
+      a(href='/authors') #{t('home.author')}
+      br
+      a(href='/genres') #{t('home.genre')}
+      br
+      a(href='/bookinstances') #{t('home.bookinstance')}
+      hr
+      a(href='/authors/create') #{t('home.create_author')}
+      br
+      a(href='/genres/create') #{t('home.create_genre')}
+      br
+      a(href='/books/create') #{t('home.create_book')}
+      br
+      a(href='/bookinstances/create') #{t('home.create_bookinstance')}
+      hr
+      a(href='/?lang=en') #{t('home.language_en')}
+      br
+      a(href='/?lang=vi') #{t('home.language_vi')}
+
+    .content
+      h1 #{t('home.greeting', { title: 'Sun Asterisk' })}
+      p #{t('home.greeting', { title: 'Sun Asterisk' })}
+      
+      h2 #{t('home.content')}
+      p #{t('home.library_status')}
+      ul
+        li #{t('home.book_count', { count: book_count })}
+        li #{t('home.book_instance_count', { count: book_instance_count })}
+        li #{t('home.available_book_instance_count', { count: book_instance_available_count })}
+        li #{t('home.author_count', { count: author_count })}
+        li #{t('home.genre_count', { count: genre_count })}

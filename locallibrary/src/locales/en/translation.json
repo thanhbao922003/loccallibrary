@@ -1,0 +1,24 @@
+{
+    "home": {
+      "welcome": "Back",
+      "book": "Books",
+      "author": "Authors",
+      "genre": "Genres",
+      "bookinstance": "Book Instances",
+      "create_author": "Create new Author",
+      "create_genre": "Create new Genre",
+      "create_book": "Create new Book",
+      "create_bookinstance": "Create new Book Instance",
+      "greeting": "Welcome to Sun Asterisk",
+      "content": "Content",
+      "library_status": "The state of our library:",
+      "book_count": "Books: {{count}}",
+      "book_instance_count": "Book Instances: {{count}}",
+      "available_book_instance_count": "Available Book Instances: {{count}}",
+      "author_count": "Authors: {{count}}",
+      "genre_count": "Genres: {{count}}",
+      "language_en": "English",
+      "language_vi": "VietNam"
+    }
+  }
+  

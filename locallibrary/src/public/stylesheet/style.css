@@ -1,0 +1,60 @@
+body {
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  display: flex; 
+  flex-direction: row; 
+}
+
+.sidebar {
+  width: 25%;
+  padding: 10px;
+  border-right: 1px solid #ccc;
+}
+
+.content {
+  width: 75%;
+  padding: 10px;
+}
+
+h1 {
+  font-size: 2rem;
+  color: #d30707;
+}
+
+h2 {
+  font-size: 1.5rem;
+  color: #d70e0e;
+}
+
+p {
+  font-size: 1.1rem;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+ul li {
+  font-size: 1.1rem;
+  margin: 0.5rem 0;
+}
+
+a {
+  color: #0066cc;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+hr {
+  margin: 1rem 0;
+}
+
+span {
+  margin: 0 0.5rem;
+}
