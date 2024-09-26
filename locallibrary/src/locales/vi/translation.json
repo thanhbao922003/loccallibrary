@@ -1,0 +1,24 @@
+{
+    "home": {
+      "welcome": "Trở lại",
+      "book": "Sách",
+      "author": "Tác giả",
+      "genre": "Thể loại",
+      "bookinstance": "Bản sao sách",
+      "create_author": "Tạo mới tác giả",
+      "create_genre": "Tạo mới thể loại",
+      "create_book": "Tạo mới sách",
+      "create_bookinstance": "Tạo mới bản sao sách",
+      "greeting": "Chào mừng bạn đến với Sun Asterisk",
+      "content": "Nội dung",
+      "library_status": "Tình trạng thư viện của chúng tôi:",
+      "book_count": "Sách: {{count}}",
+      "book_instance_count": "Bản sao: {{count}}",
+      "available_book_instance_count": "Tất cả các bản sao có sẵn: {{count}}",
+      "author_count": "Tác giả: {{count}}",
+      "genre_count": "Thể loại: {{count}}",
+        "language_en": "Tiếng Anh",
+      "language_vi": "Tiếng Việt"
+    }
+  }
+  

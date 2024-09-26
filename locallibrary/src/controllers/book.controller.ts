@@ -40,3 +40,4 @@ export const bookDeleteGet = asyncHandler(async (req: Request, res: Response) =>
 export const bookDeletePost = asyncHandler(async (req: Request, res: Response) => {
   res.json({ message: `Xử lý xóa sách với id: ${req.params.id}` });
 });
+
