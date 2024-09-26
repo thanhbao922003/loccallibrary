@@ -1,0 +1,34 @@
+doctype html
+html
+    head
+        title 
+        link(rel='stylesheet', href='/stylesheet/style.css')
+    body
+        .container
+            .sidebar
+                a(href='/') #{t('home.welcome')}
+                hr
+                a(href='/books') #{t('home.book')}
+                br
+                a(href='/authors') #{t('home.author')}
+                br
+                a(href='/genres') #{t('home.genre')}
+                br
+                a(href='/bookinstances') #{t('home.bookinstance')}
+                hr
+                a(href='/authors/create') #{t('home.create_author')}
+                br
+                a(href='/genres/create') #{t('home.create_genre')}
+                br
+                a(href='/books/create') #{t('home.create_book')}
+                br
+                a(href='/bookinstances/create') #{t('home.create_bookinstance')}
+            .content
+                h1 #{t('book.book_list')} 
+                ul
+                    each book in books
+                        li
+                            a(href=book.url) #{book.title}
+                            | (#{book.author.first_name} #{book.author.family_name})
+                if books.length === 0
+                    p There are no books.

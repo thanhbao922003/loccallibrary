@@ -1,14 +1,26 @@
 import { Request, Response } from 'express';
 import asyncHandler from 'express-async-handler';
+import { getAllAuthorsWithBooks, countAuthors } from '../services/author.service';
 
-// Hiển thị danh sách tất cả các tác giả (List)
+// Hiển thị danh sách tất cả các Tác giả (List)
 export const authorListGet = asyncHandler(async (req: Request, res: Response) => {
-  res.json({ message: 'Danh sách tất cả các tác giả' });
-});
+  const authors = await getAllAuthorsWithBooks();
 
-// Hiển thị chi tiết một tác giả cụ thể (Show)
-export const authorShowGet = asyncHandler(async (req: Request, res: Response) => {
-  res.json({ message: `Chi tiết tác giả với id: ${req.params.id}` });
+  const authorsWithUrl = authors.map(author => ({
+    ...author,
+    url: author.getUrl(), 
+    booksCount: author.books.length,
+    date_of_birth: author.date_of_birth ? author.date_of_birth.toString() : 'N/A',
+    date_of_death: author.date_of_death ? author.date_of_death.toString() : 'N/A',
+  }));
+
+  const { author_count } = await countAuthors();
+
+  res.render('authors/author', {
+    authors: authorsWithUrl,
+    title: req.i18n.t('author.author_list'),
+    author_count 
+  });
 });
 
 // Hiển thị trang tạo tác giả mới (Create GET)

@@ -18,6 +18,10 @@ export class BookInstance {
   @ManyToOne(() => Book, (book) => book.bookInstances)  
   book?: Book;
 
+  getUrl(): string {
+    return `/bookinstances/${this.id}`;
+  }
+
   constructor(bookInstanceData?: Partial<BookInstance>) {
     this.imprint = bookInstanceData?.imprint ?? '';
     this.status = bookInstanceData?.status ?? '';

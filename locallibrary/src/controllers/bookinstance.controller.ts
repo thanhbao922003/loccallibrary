@@ -1,9 +1,21 @@
 import { Request, Response } from 'express';
 import asyncHandler from 'express-async-handler';
+import { getAllBookInstancesWithBooks, countBookInstances } from '../services/bookinstance.service';
 
 // Hiển thị danh sách tất cả các Tình trạng sách (List)
 export const bookInstanceListGet = asyncHandler(async (req: Request, res: Response) => {
-  res.json({ message: 'Danh sách tất cả tình trạng sách' });
+  const bookInstances = await getAllBookInstancesWithBooks();
+
+  const bookInstancesWithUrl = bookInstances.map(bookInstance => ({
+    ...bookInstance,
+    url: bookInstance.getUrl(),  
+    imprint: bookInstance.imprint,  
+    due_back: bookInstance.due_back ? bookInstance.due_back.toString() : 'N/A',
+    status: bookInstance.status,
+    bookTitle: bookInstance.book ? bookInstance.book.title : 'N/A', 
+  }));
+  const { book_instance_count } = await countBookInstances();
+  res.render('bookinstance/bookinstance', { bookInstances: bookInstancesWithUrl, title: req.i18n.t('bookinstance.bookinstance_list'), book_instance_count });
 });
 
 // Hiển thị chi tiết một Tình trạng sách cụ thể (Show)

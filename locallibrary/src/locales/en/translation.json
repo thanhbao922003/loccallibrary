@@ -19,6 +19,22 @@
       "genre_count": "Genres: {{count}}",
       "language_en": "English",
       "language_vi": "VietNam"
+    },
+    "author": {
+      "author_list": "Author List",
+      "born": "Born",
+      "died": "Died",
+      "books_count": "Books",
+      "no_authors": "There are no authors.",
+      "book_list": "Book List"  
+    },
+    "book": {
+      "book_list": "Book List" 
+    },
+    "genre": {
+      "genre_list": "Genre List" 
+    },
+    "bookinstance": {
+      "bookinstance_list": "BookInstance List" 
     }
   }
-  

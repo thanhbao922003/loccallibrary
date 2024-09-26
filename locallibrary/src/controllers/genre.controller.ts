@@ -1,9 +1,18 @@
 import { Request, Response } from 'express';
 import asyncHandler from 'express-async-handler';
+import { getAllGenres, countGenres } from '@src/services/genre.service';
 
 // Hiển thị danh sách tất cả các Thể loại sách (List)
 export const genreListGet = asyncHandler(async (req: Request, res: Response) => {
-  res.json({ message: 'Danh sách tất cả thể loại sách' });
+    const genres = await getAllGenres();
+
+    const genresWithUrl = genres.map(genre => ({
+      ...genre,
+      url: genre.getUrl(),  
+    }));
+
+  const { genre_count } = await countGenres();
+    res.render('genres/genre', { genres: genresWithUrl, title: req.i18n.t('genre.genre_list'), genre_count });
 });
 
 // Hiển thị chi tiết một Thể loại sách cụ thể (Show)

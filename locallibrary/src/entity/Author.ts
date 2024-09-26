@@ -14,13 +14,17 @@ export class Author {
 
   @Column({ type: 'date', nullable: true })
   date_of_birth?: Date; 
-
+  
   @Column({ type: 'date', nullable: true })
-  date_of_death?: Date;
-
+  date_of_death?: Date;  
+  
   @OneToMany(() => Book, (book) => book.author)
   books!: Book[];
 
+  getUrl(): string {
+    return `/authors/${this.id}`;
+  }
+  
   constructor(authorData?: Partial<Author>) {
     this.first_name = authorData?.first_name ?? '';
     this.family_name = authorData?.family_name ?? '';
