@@ -5,7 +5,7 @@ import { Author } from '../entity/Author';
 import { Genre } from '../entity/Genre';
 import { BookInstance } from '../entity/BookInstance';
 
-config(); // Tải các biến môi trường từ file .env
+config(); 
 
 export const AppDataSource = new DataSource({
   type: process.env.DB_TYPE as 'mysql',
@@ -16,6 +16,6 @@ export const AppDataSource = new DataSource({
   database: process.env.DB_DATABASE,
   synchronize: false,
   logging: true,
-  entities: ['src/entity/*.ts'],
+  entities: [Book, Author, Genre, BookInstance],
   migrations: ['src/migration/*.ts'],
 });

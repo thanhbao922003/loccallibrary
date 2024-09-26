@@ -16,12 +16,13 @@ export class BookInstance {
   due_back?: Date;
 
   @ManyToOne(() => Book, (book) => book.bookInstances)  
-  book!: Book;
+  book?: Book;
 
-  constructor(bookInstanceData: Partial<BookInstance>) {
-    this.imprint = bookInstanceData.imprint ?? '';
-    this.status = bookInstanceData.status ?? '';
-    this.due_back = bookInstanceData.due_back ?? undefined;
-    this.book = bookInstanceData.book ?? new Book({});
+  constructor(bookInstanceData?: Partial<BookInstance>) {
+    this.imprint = bookInstanceData?.imprint ?? '';
+    this.status = bookInstanceData?.status ?? '';
+    this.due_back = bookInstanceData?.due_back ?? undefined;
+    this.book = bookInstanceData?.book ?? undefined; 
   }
+  
 }
