@@ -1,9 +1,20 @@
 import { Request, Response } from 'express';
 import asyncHandler from 'express-async-handler';
+import { getAllBooksWithAuthor, countBooks } from '../services/book.service';
 
 // Hiển thị danh sách tất cả các Sách (List)
 export const bookListGet = asyncHandler(async (req: Request, res: Response) => {
-  res.json({ message: 'Danh sách tất cả các sách' });
+  const books = await getAllBooksWithAuthor();
+
+  const booksWithUrl = books.map(book => ({
+    ...book,
+    url: book.getUrl(),  
+  }));
+
+  const { book_count } = await countBooks();
+
+  res.render('books/book', { books: booksWithUrl, title: req.i18n.t('book.book_list'), book_count  });
+
 });
 
 // Hiển thị chi tiết một Sách cụ thể (Show)

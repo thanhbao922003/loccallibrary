@@ -19,6 +19,12 @@
       "genre_count": "Thể loại: {{count}}",
         "language_en": "Tiếng Anh",
       "language_vi": "Tiếng Việt"
+    },
+    "author": {
+        "author_list": "Danh sách tác giả",
+        "born": "Sinh",
+        "died": "Mất",
+        "books_count": "Sách",
+        "no_authors": "Không có tác giả nào."
     }
   }
-  

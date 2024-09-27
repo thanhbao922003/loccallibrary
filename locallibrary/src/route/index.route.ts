@@ -12,7 +12,7 @@ const router = Router();
 router.use(i18nextMiddleware.handle(i18next)); 
 router.use(setLocaleMiddleware);
 
-router.get('/', index);
+router.get('/', index)
 router.use('/authors', authorRoute);
 router.use('/books', bookRoute);
 router.use('/bookinstances', bookInstanceRoute); 

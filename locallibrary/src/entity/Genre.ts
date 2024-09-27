@@ -11,7 +11,11 @@ export class Genre {
 
   @ManyToMany(() => Book, (book) => book.genres)
   books!: Book[];
-
+  
+  getUrl(): string {
+    return `/genres/${this.id}`;
+  }
+  
   constructor(genreData?: Partial<Genre>) {
     this.name = genreData?.name ?? '';
   }

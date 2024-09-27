@@ -27,6 +27,10 @@ export class Book {
   @OneToMany(() => BookInstance, (bookInstance: BookInstance) => bookInstance.book)
   bookInstances!: BookInstance[];
 
+  getUrl(): string {
+    return `/books/${this.id}`;
+  }
+
   constructor(bookData?: Partial<Book>) {
     this.title = bookData?.title ?? '';
     this.summary = bookData?.summary ?? '';

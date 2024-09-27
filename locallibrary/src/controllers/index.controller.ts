@@ -4,7 +4,6 @@ import { countBooks } from '../services/book.service';
 import { countAuthors } from '../services/author.service';
 import { countGenres } from '../services/genre.service';
 import { countBookInstances } from '../services/bookinstance.service';
-import i18next from 'i18next'; // Import i18next
 
 export const index = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -16,10 +15,8 @@ export const index = asyncHandler(
         countBookInstances()
       ]);
 
-      const translatedTitle = i18next.t('home.greeting', { title: 'Sun Asterisk' });
-
       res.render('index', {
-        title: translatedTitle, 
+        title: 'Sun Asterisk',
         book_count: bookData.book_count,
         author_count: authorData.author_count,
         genre_count: genreData.genre_count,

@@ -2,30 +2,14 @@ body {
   font-family: Arial, sans-serif;
 }
 
-.container {
-  display: flex; 
-  flex-direction: row; 
-}
-
-.sidebar {
-  width: 25%;
-  padding: 10px;
-  border-right: 1px solid #ccc;
-}
-
-.content {
-  width: 75%;
-  padding: 10px;
-}
-
 h1 {
   font-size: 2rem;
-  color: #d30707;
+  color: #e41717;
 }
 
 h2 {
   font-size: 1.5rem;
-  color: #d70e0e;
+  color: #000;
 }
 
 p {
@@ -57,4 +41,20 @@ hr {
 
 span {
   margin: 0 0.5rem;
+}
+
+.container {
+  display: flex; 
+  flex-direction: row; 
+}
+
+.sidebar {
+  width: 25%;
+  padding: 10px;
+  border-right: 1px solid #ccc;
+}
+
+.content {
+  width: 75%;
+  padding: 10px;
 }
