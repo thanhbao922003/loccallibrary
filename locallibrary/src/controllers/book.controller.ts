@@ -1,6 +1,7 @@
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import asyncHandler from 'express-async-handler';
-import { getAllBooksWithAuthor, countBooks } from '../services/book.service';
+import { getAllBooksWithAuthor, countBooks, getBookById } from '../services/book.service';
+import { BookInstanceStatus } from '../enums/statusenums';
 
 // Hiển thị danh sách tất cả các Sách (List)
 export const bookListGet = asyncHandler(async (req: Request, res: Response) => {
@@ -19,7 +20,30 @@ export const bookListGet = asyncHandler(async (req: Request, res: Response) => {
 
 // Hiển thị chi tiết một Sách cụ thể (Show)
 export const bookShowGet = asyncHandler(async (req: Request, res: Response) => {
-  res.json({ message: `Chi tiết sách với id: ${req.params.id}` });
+  const id = parseInt(req.params.id);
+
+  if (isNaN(id)) {
+      res.status(400).json({ message: 'Mã sách không hợp lệ' }); 
+      return; 
+  }
+
+  const book = await getBookById(id);
+  console.log(book);
+  if (!book) {
+      res.status(404).json({ message: 'Sách không tìm thấy' }); 
+      return;
+  }
+
+  const bookInstances = book.bookInstances || []; 
+  const bookGenres = book.genres || []; 
+
+  res.render('books/detail', {
+      book,
+      bookInstances,
+      bookGenres,
+      title: req.i18n.t('book.book_detail'),
+      BookInstanceStatus
+  });
 });
 
 // Hiển thị trang tạo Sách mới (Create GET)

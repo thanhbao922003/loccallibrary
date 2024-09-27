@@ -1,0 +1,32 @@
+doctype html
+html
+    head
+        title #{t('genre.genre_detail')}
+        link(rel='stylesheet', href='/stylesheet/style.css')
+    body
+        .container
+            .sidebar
+                a(href='/') #{t('home.welcome')}
+                hr
+                a(href='/books') #{t('home.book')}
+                br
+                a(href='/authors') #{t('home.author')}
+                br
+                a(href='/genres') #{t('home.genre')}
+                hr
+                a(href='/genres/create') #{t('home.create_genre')}
+                br
+                a(href='/books/create') #{t('home.create_book')}
+            .content
+                if genre 
+                    p Genre: #{genre.name} 
+                    if genre.books.length > 0
+                        each book in genre.books
+                            a(href=`/books/${book.id}`) #{book.title} 
+                            p #[strong -] #{book.summary || 'No summary'}
+                            if book !== genre.books[genre.books.length - 1]
+                                br
+                    else
+                        | No books available
+                else
+                    p Book not found

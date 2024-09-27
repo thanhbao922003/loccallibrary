@@ -15,9 +15,14 @@ export const countBookInstances = async () => {
 };
 
 export const getAllBookInstancesWithBooks = async () => {
-  const bookInstances = await bookInstanceRepository.find({
+  return await bookInstanceRepository.find({
     relations: ['book'],
   });
-  
-  return bookInstances;
+};
+
+export const getBookInstanceById = async (id: number) => {
+  return await bookInstanceRepository.findOne({
+      where: { id },
+      relations: ['book'],  
+  });
 };

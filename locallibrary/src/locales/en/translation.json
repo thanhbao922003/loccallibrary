@@ -22,6 +22,7 @@
     },
     "author": {
       "author_list": "Author List",
+      "author_detail": "Author Detail",
       "born": "Born",
       "died": "Died",
       "books_count": "Books",
@@ -29,7 +30,8 @@
       "book_list": "Book List"  
     },
     "book": {
-      "book_list": "Book List" 
+      "book_list": "Book List" ,
+      "book_detail": "Book Detail" 
     },
     "genre": {
       "genre_list": "Genre List" 

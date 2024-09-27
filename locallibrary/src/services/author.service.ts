@@ -9,9 +9,14 @@ export const countAuthors = async () => {
 };
 
 export const getAllAuthorsWithBooks = async () => {
-  const authors = await authorRepository.find({
+  return await authorRepository.find({
     relations: ['books'],
   });
-  
-  return authors;
+};
+
+export const getAuthorById = async (id: number) => {
+  return await authorRepository.findOne({
+    where: { id },
+    relations: ['books'],  
+  });
 };

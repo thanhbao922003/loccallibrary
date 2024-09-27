@@ -12,7 +12,7 @@ router.post('/:id/update', authorController.authorUpdatePost);
 router.get('/:id/delete', authorController.authorDeleteGet);
 router.post('/:id/delete', authorController.authorDeletePost);
 
-// router.get('/:id', authorController.authorShowGet);
+router.get('/:id', authorController.authorShowGet);
 
 router.get('/', authorController.authorListGet);
 

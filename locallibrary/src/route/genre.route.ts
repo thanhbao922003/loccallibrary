@@ -13,7 +13,6 @@ router.get('/:id/delete', genreController.genreDeleteGet);
 router.post('/:id/delete', genreController.genreDeletePost);
 
 router.get('/:id', genreController.genreShowGet);
-
 router.get('/', genreController.genreListGet);
 
 export default router;

@@ -1,6 +1,6 @@
-export enum StatusEnum {
-    Available = 'Available',
-    CheckedOut = 'Checked Out',
-    Reserved = 'Reserved',
-  }
-  
+export enum BookInstanceStatus {
+  Available = 'Available',
+  Maintenance = 'Maintenance',
+  Loaned = 'Loaned',
+  Reserved = 'Reserved'
+}

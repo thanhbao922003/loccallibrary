@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import asyncHandler from 'express-async-handler';
-import { getAllBookInstancesWithBooks, countBookInstances } from '../services/bookinstance.service';
-
+import { getAllBookInstancesWithBooks, countBookInstances, getBookInstanceById } from '../services/bookinstance.service';
+import { BookInstanceStatus } from '../enums/statusenums';
 // Hiển thị danh sách tất cả các Tình trạng sách (List)
 export const bookInstanceListGet = asyncHandler(async (req: Request, res: Response) => {
   const bookInstances = await getAllBookInstancesWithBooks();
@@ -10,19 +10,44 @@ export const bookInstanceListGet = asyncHandler(async (req: Request, res: Respon
     ...bookInstance,
     url: bookInstance.getUrl(),  
     imprint: bookInstance.imprint,  
-    due_back: bookInstance.due_back ? bookInstance.due_back.toString() : 'N/A',
+    due_back: bookInstance.due_back instanceof Date 
+      ? bookInstance.due_back.toISOString().split('T')[0] 
+      : 'N/A',  
     status: bookInstance.status,
     bookTitle: bookInstance.book ? bookInstance.book.title : 'N/A', 
   }));
+
   const { book_instance_count } = await countBookInstances();
-  res.render('bookinstance/bookinstance', { bookInstances: bookInstancesWithUrl, title: req.i18n.t('bookinstance.bookinstance_list'), book_instance_count });
+
+  res.render('bookinstance/bookinstance', {
+    bookInstances: bookInstancesWithUrl,
+    title: req.i18n.t('bookinstance.bookinstance_list'),
+    book_instance_count
+  });
 });
 
 // Hiển thị chi tiết một Tình trạng sách cụ thể (Show)
 export const bookInstanceShowGet = asyncHandler(async (req: Request, res: Response) => {
-  res.json({ message: `Chi tiết tình trạng sách với id: ${req.params.id}` });
-});
+  const id = parseInt(req.params.id);
 
+  if (isNaN(id)) {
+    res.status(400).json({ message: 'Mã bản sao sách không hợp lệ' }); 
+    return; 
+  }
+
+  const bookInstance = await getBookInstanceById(id);
+
+  if (!bookInstance) {
+    res.status(404).json({ message: 'Bản sao sách không tìm thấy' }); 
+    return;
+  }
+
+  res.render('bookinstance/detail', {
+    bookInstance,
+    title: req.i18n.t('bookinstance.bookinstance_detail'),
+    BookInstanceStatus
+  });
+});
 // Hiển thị trang tạo Tình trạng sách mới (Create GET)
 export const bookInstanceCreateGet = asyncHandler(async (req: Request, res: Response) => {
   res.json({ message: 'Hiển thị form tạo tình trạng sách mới' });
