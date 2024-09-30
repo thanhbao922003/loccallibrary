@@ -9,10 +9,15 @@ export const countBooks = async () => {
 };
 
 export const getAllBooksWithAuthor = async () => {
-  const books = await bookRepository.find({
+  return await bookRepository.find({
     order: { title: 'ASC' },
-    relations: ['author']  
+    relations: ['author']
   });
-  
-  return books;
+};
+
+export const getBookById = async (id: number) => {
+  return await bookRepository.findOne({
+      where: { id },
+      relations: ['author', 'genres', 'bookInstances'],
+  });
 };

@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import asyncHandler from 'express-async-handler';
-import { getAllAuthorsWithBooks, countAuthors } from '../services/author.service';
+import { getAllAuthorsWithBooks, countAuthors, getAuthorById } from '../services/author.service';
 
 // Hiển thị danh sách tất cả các Tác giả (List)
 export const authorListGet = asyncHandler(async (req: Request, res: Response) => {
@@ -20,6 +20,31 @@ export const authorListGet = asyncHandler(async (req: Request, res: Response) =>
     authors: authorsWithUrl,
     title: req.i18n.t('author.author_list'),
     author_count 
+  });
+});
+
+// Hiển thị chi tiết một Tác giả cụ thể (Show)
+export const authorShowGet = asyncHandler(async (req: Request, res: Response) => {
+  const id = parseInt(req.params.id);
+
+  if (isNaN(id)) {
+    res.status(400).json({ message: 'Mã tác giả không hợp lệ' }); 
+    return; 
+  }
+
+  const author = await getAuthorById(id);
+
+  if (!author) {
+    res.status(404).json({ message: 'Tác giả không tìm thấy' }); 
+    return;
+  }
+
+  const books = author.books || [];  
+
+  res.render('authors/detail', {
+    author,
+    books,
+    title: req.i18n.t('author.author_detail')
   });
 });
 

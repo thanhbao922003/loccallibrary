@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import asyncHandler from 'express-async-handler';
-import { getAllGenres, countGenres } from '@src/services/genre.service';
+import { getAllGenres, countGenres, getGenreById } from '@src/services/genre.service';
 
 // Hiển thị danh sách tất cả các Thể loại sách (List)
 export const genreListGet = asyncHandler(async (req: Request, res: Response) => {
@@ -17,7 +17,27 @@ export const genreListGet = asyncHandler(async (req: Request, res: Response) => 
 
 // Hiển thị chi tiết một Thể loại sách cụ thể (Show)
 export const genreShowGet = asyncHandler(async (req: Request, res: Response) => {
-  res.json({ message: `Chi tiết thể loại sách với id: ${req.params.id}` });
+  const id = parseInt(req.params.id);
+
+  if (isNaN(id)) {
+    res.status(400).json({ message: 'Mã thể loại không hợp lệ' }); 
+    return; 
+  }
+
+  const genre = await getGenreById(id);
+
+  if (!genre) {
+    res.status(404).json({ message: 'Thể loại không tìm thấy' }); 
+    return;
+  }
+
+  const books = genre.books || [];  
+
+  res.render('genres/detail', {
+    genre,
+    books,
+    title: req.i18n.t('genre.genre_detail')
+  });
 });
 
 // Hiển thị trang tạo Thể loại sách mới (Create GET)
