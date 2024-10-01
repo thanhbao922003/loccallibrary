@@ -20,3 +20,15 @@ export const getGenreById = async (id: number) => {
       relations: ['books'],  
   });
 };
+
+export const saveGenre = async (genre: Genre) => {
+  const savedGenre = await genreRepository.save(genre);  
+  savedGenre.getUrl = () => `/genres/${savedGenre.id}`; 
+  return savedGenre;
+};
+
+export const findGenreByName = async (name: string) => {
+  return await genreRepository.findOne({
+    where: { name },
+  });
+};

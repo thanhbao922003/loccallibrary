@@ -8,6 +8,9 @@ const app = express();
 
 app.use(express.json());
 
+app.use(express.urlencoded({ extended: true })); 
+app.use(express.json());
+
 AppDataSource.initialize()
   .then(() => {
     console.log('Data Source has been initialized!');
@@ -25,5 +28,7 @@ AppDataSource.initialize()
     app.use('/stylesheet', express.static(path.join(__dirname, '/public/stylesheet')));
     
     app.use('/', routes);
+
+
   })
   .catch((error) => console.log('Error during Data Source initialization:', error));

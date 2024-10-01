@@ -36,7 +36,7 @@ html
                 p #[strong Genres:] 
                     if book.genres.length > 0
                         each genre in book.genres
-                            a(href=genre.url) #{genre.name}
+                            a(href=`/genres/${genre.id}`) #{genre.name}
                             if genre !== book.genres[book.genres.length - 1]
                                 | , 
                     else
@@ -46,17 +46,16 @@ html
                     h4 Copies
                     each instance in bookInstances
                         hr
-                        if instance.status === BookInstanceStatus.Available
-                            p.text-success #{instance.status}
-                        else if instance.status === BookInstanceStatus.Maintenance
-                            p.text-danger #{instance.status}
-                        else
-                            p.text-warning #{instance.status}
+                        p(class=instance.status === BookInstanceStatus.Available ? 'text-success' : instance.status === BookInstanceStatus.Maintenance ? 'text-danger' : 'text-warning') #{instance.status}
 
                         p #[strong Imprint:] #{instance.imprint}
                         if instance.status !== BookInstanceStatus.Available && instance.dueBack
                             p #[strong Due back:] #{instance.dueBack.toISOString().slice(0, 10)}  // Định dạng ngày
-                        p #[strong Id:]
-                            a(href=instance.url) #{instance.id}
+                        p #[strong Id:] 
+                            a(href=`/bookinstances/${instance.id}`) #{instance.id}
                     if bookInstances.length === 0
                         p There are no copies of this book in the library.
+                    p
+                    a(href=`/books/${book.id}/delete`) Delete Book
+                    p
+                    a(href=`/books/${book.id}/update`) Update Book

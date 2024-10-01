@@ -18,7 +18,7 @@ export class Book {
   isbn!: string;
 
   @ManyToOne(() => Author, (author) => author.books)
-  author!: Author;
+  author!: Author ;
 
   @ManyToMany(() => Genre, (genre) => genre.books)
   @JoinTable()

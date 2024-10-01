@@ -1,0 +1,43 @@
+doctype html
+html
+    head
+        title 
+        link(rel='stylesheet', href='/stylesheet/style.css')
+    body
+        .container
+            .sidebar
+                a(href='/') #{t('home.welcome')}
+                hr
+                a(href='/books') #{t('home.book')}
+                br
+                a(href='/authors') #{t('home.author')}
+                br
+                a(href='/genres') #{t('home.genre')}
+                br
+                a(href='/bookinstances') #{t('home.bookinstance')}
+                hr
+                a(href='/authors/create') #{t('home.create_author')}
+                br
+                a(href='/genres/create') #{t('home.create_genre')}
+                br
+                a(href='/books/create') #{t('home.create_book')}
+                br
+                a(href='/bookinstances/create') #{t('home.create_bookinstance')}
+            .content
+                h1 #{title}: #{author.name}
+                p= author.lifespan
+                if authorBooks.length
+                    p #[strong Delete the following books before attempting to delete this author.]
+                    div(style='margin-left:20px; margin-top:20px')
+                        h4 Books
+                        dl
+                            each book in authorBooks
+                                dt
+                                    a(href=book.url) #{book.title}
+                                dd #{book.summary}
+                else
+                    p Do you really want to delete this Author?
+                    form(method='POST')
+                        div.form-group
+                            input#authorid.form-control(type='hidden', name='authorid', value=author.id) 
+                        button.btn.btn-primary(type='submit') Delete

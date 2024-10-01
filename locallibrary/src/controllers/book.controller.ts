@@ -1,7 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
 import asyncHandler from 'express-async-handler';
-import { getAllBooksWithAuthor, countBooks, getBookById } from '../services/book.service';
+import { getAllBooksWithAuthor, countBooks, getBookById, getAllAuthorsAndGenres, updateBookGenres, createBook   } from '../services/book.service';
 import { BookInstanceStatus } from '../enums/statusenums';
+import { validationResult } from 'express-validator';
+import { validateBook } from '../validations/bookValidation';
+import { validateBookUpdate } from '@src/validations/bookUpdateValidate';
 
 // Hiển thị danh sách tất cả các Sách (List)
 export const bookListGet = asyncHandler(async (req: Request, res: Response) => {
@@ -48,23 +51,103 @@ export const bookShowGet = asyncHandler(async (req: Request, res: Response) => {
 
 // Hiển thị trang tạo Sách mới (Create GET)
 export const bookCreateGet = asyncHandler(async (req: Request, res: Response) => {
-  res.json({ message: 'Hiển thị form tạo sách mới' });
+  const { allAuthors, allGenres } = await getAllAuthorsAndGenres();
+
+  res.render('books/form', { 
+      title: 'Create Book',
+      authors: allAuthors,
+      genres: allGenres,
+      book: {},
+      errors: [] 
+  });
 });
 
 // Xử lý POST để tạo Sách mới (Create POST)
-export const bookCreatePost = asyncHandler(async (req: Request, res: Response) => {
-  res.json({ message: 'Xử lý tạo sách mới' });
-});
+export const bookCreatePost = [
+  ...validateBook(),
+  asyncHandler(async (req: Request, res: Response) => {
+    const errors = validationResult(req);
+  
+    const { allAuthors, allGenres } = await getAllAuthorsAndGenres();
+  
+    const book = {
+      title: req.body.title || '',
+      author: req.body.author || '',
+      summary: req.body.summary || '',
+      isbn: req.body.isbn || '',
+      genre: Array.isArray(req.body.genre) ? req.body.genre : []  // Xử lý trường hợp undefined
+    };
+  
+    if (!errors.isEmpty()) {
+      return res.render('books/create', {
+        title: "Create new book",
+        authors: allAuthors,
+        genres: allGenres,
+        book: book,
+        errors: errors.array(),
+      });
+    }
+  
+    const genreIds = book.genre.map((item: string) => parseInt(item, 10)); // Sử dụng book.genre đã xử lý
+    const bookData = {
+      title: book.title,
+      author: book.author, 
+      summary: book.summary,
+      isbn: book.isbn,
+      genres: genreIds 
+    };
+  
+    const createdBook = await createBook(bookData);
+    res.redirect(`/books/${createdBook.id}`);
+  })
+  
+];
 
 // Hiển thị trang cập nhật Sách (Update GET)
-export const bookUpdateGet = asyncHandler(async (req: Request, res: Response) => {
-  res.json({ message: `Hiển thị form cập nhật sách với id: ${req.params.id}` });
+export const bookUpdateGet = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+  const id = parseInt(req.params.id);
+  const book = await getBookById(id);
+  
+  if (!book) {
+    const err = new Error('Book not found');
+    return next(err);
+  }
+  
+  const { allAuthors, allGenres } = await getAllAuthorsAndGenres();
+  
+  res.render('books/update', { title: 'Update Book', authors: allAuthors, genres: allGenres, book: book });
 });
 
 // Xử lý POST để cập nhật Sách (Update POST)
-export const bookUpdatePost = asyncHandler(async (req: Request, res: Response) => {
-  res.json({ message: `Xử lý cập nhật sách với id: ${req.params.id}` });
-});
+export const bookUpdatePost = [
+  (req: Request, res: Response, next: NextFunction) => {
+    if (!Array.isArray(req.body.genre)) {
+      req.body.genre = typeof req.body.genre === 'undefined' ? [] : [req.body.genre];
+    }
+    next();
+  },
+
+  ...validateBookUpdate(),
+  asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+    const id = parseInt(req.params.id);
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      const { allAuthors, allGenres } = await getAllAuthorsAndGenres();
+      return res.render('books/update', {
+        title: 'Update Book',
+        authors: allAuthors,
+        genres: allGenres,
+        book: req.body,
+        errors: errors.array(),
+      });
+    }
+
+    const updatedBook = await updateBookGenres(id, req.body);
+
+    res.redirect(updatedBook.getUrl());
+  }),
+];
 
 // Hiển thị trang để xóa Sách (Delete GET)
 export const bookDeleteGet = asyncHandler(async (req: Request, res: Response) => {

@@ -27,16 +27,31 @@
       "died": "Died",
       "books_count": "Books",
       "no_authors": "There are no authors.",
-      "book_list": "Book List"  
+      "book_list": "Book List",
+      "no_books": "Author has no book." ,
+      "first_name": "First Name",
+       "family_name": "Family Name",
+       "date_of_birth": "Date of Birth",
+       "date_of_death": "Date of Death",
+      "submit": "Submit" 
     },
     "book": {
       "book_list": "Book List" ,
-      "book_detail": "Book Detail" 
+      "book_detail": "Book Detail",
+      "isbn": "Book Update",
+      "book_title": "Book Title",
+      "summary": "Summary",
+      "submit": "Submit" 
+
     },
     "genre": {
       "genre_list": "Genre List" 
     },
     "bookinstance": {
-      "bookinstance_list": "BookInstance List" 
+      "bookinstance_list": "BookInstance List",
+       "book": "Book Title",
+       "imprint": "Imprint",
+       "status": "Status",
+       "due_back": "Due Back"
     }
   }
