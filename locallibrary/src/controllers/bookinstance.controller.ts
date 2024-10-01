@@ -1,7 +1,10 @@
 import { Request, Response } from 'express';
 import asyncHandler from 'express-async-handler';
-import { getAllBookInstancesWithBooks, countBookInstances, getBookInstanceById } from '../services/bookinstance.service';
+import { getAllBookInstancesWithBooks, countBookInstances, getBookInstanceById, getAllBooks, createBookInstance } from '../services/bookinstance.service';
 import { BookInstanceStatus } from '../enums/statusenums';
+import { body, validationResult } from 'express-validator';
+import { validateBookInstance } from '../validations/bookInstanceValidation';
+
 // Hiển thị danh sách tất cả các Tình trạng sách (List)
 export const bookInstanceListGet = asyncHandler(async (req: Request, res: Response) => {
   const bookInstances = await getAllBookInstancesWithBooks();
@@ -48,15 +51,47 @@ export const bookInstanceShowGet = asyncHandler(async (req: Request, res: Respon
     BookInstanceStatus
   });
 });
+
 // Hiển thị trang tạo Tình trạng sách mới (Create GET)
 export const bookInstanceCreateGet = asyncHandler(async (req: Request, res: Response) => {
-  res.json({ message: 'Hiển thị form tạo tình trạng sách mới' });
+  const allBooks = await getAllBooks(); 
+  
+  res.render('bookinstance/form', {
+    title: 'Create Book Instance',
+    books: allBooks,  
+    bookInstance: {},
+    errors: []
+  });
 });
 
 // Xử lý POST để tạo Tình trạng sách mới (Create POST)
-export const bookInstanceCreatePost = asyncHandler(async (req: Request, res: Response) => {
-  res.json({ message: 'Xử lý tạo tình trạng sách mới' });
-});
+export const bookInstanceCreatePost = [
+  ...validateBookInstance(),
+  
+  asyncHandler(async (req: Request, res: Response) => {
+    const errors = validationResult(req);
+    const allBooks = await getAllBooks();
+    
+    const bookInstance = {
+      book: req.body.book || '',
+      imprint: req.body.imprint || '',
+      status: req.body.status || 'Available',
+      due_back: req.body.due_back || null,
+    };
+
+    if (!errors.isEmpty()) {
+      return res.render('bookinstance/form', {
+        title: "Create Book Instance",
+        books: allBooks,
+        bookInstance: bookInstance,
+        errors: errors.array(),
+      });
+    }
+
+    const createdBookInstance = await createBookInstance(bookInstance);
+    res.redirect(`/bookinstances/${createdBookInstance.id}`);
+  })
+];
 
 // Hiển thị trang cập nhật Tình trạng sách (Update GET)
 export const bookInstanceUpdateGet = asyncHandler(async (req: Request, res: Response) => {

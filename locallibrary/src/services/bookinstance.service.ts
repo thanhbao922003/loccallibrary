@@ -1,7 +1,9 @@
 import { AppDataSource } from '../repos/db';
 import { BookInstance } from '../entity/BookInstance';
+import { Book } from '../entity/Book';
 
 const bookInstanceRepository = AppDataSource.getRepository(BookInstance);
+const bookRepository = AppDataSource.getRepository(Book);
 
 export const countBookInstances = async () => {
   const [numBookInstances, availableBookInstances] = await Promise.all([
@@ -25,4 +27,17 @@ export const getBookInstanceById = async (id: number) => {
       where: { id },
       relations: ['book'],  
   });
+};
+
+export const getAllBooks = async () => {
+  const [allBooks] = await Promise.all([
+    bookRepository.find({})
+  ]);
+
+  return { allBooks };
+};
+
+export const createBookInstance = async (bookInstanceData: Partial<BookInstance>) => {
+  const newBookInstance = bookInstanceRepository.create(bookInstanceData);
+  return await bookInstanceRepository.save(newBookInstance);
 };

@@ -1,0 +1,75 @@
+doctype html
+html
+    head
+        title #{book.title}
+        link(rel='stylesheet', href='/stylesheet/style.css')
+    body
+        .container
+            .sidebar
+                a(href='/') #{t('home.welcome')}
+                hr
+                a(href='/books') #{t('home.book')}
+                br
+                a(href='/authors') #{t('home.author')}
+                br
+                a(href='/genres') #{t('home.genre')}
+                br
+                a(href='/bookinstances') #{t('home.bookinstance')}
+                hr
+                a(href='/authors/create') #{t('home.create_author')}
+                br
+                a(href='/genres/create') #{t('home.create_genre')}
+                br
+                a(href='/books/create') #{t('home.create_book')}
+                br
+                a(href='/bookinstances/create') #{t('home.create_bookinstance')}
+            .content
+                h1 #{t('book.isbn')}
+                form(action=`/books/${book.id}/update`, method='post')
+                    .form-group
+                        label(for='title') #{t('book.book_title')}:
+                        if errors
+                            each error in errors
+                                if error.path == 'title'
+                                    .alert.alert-danger #{t('book.not_empty')}
+                        input.form-control(type='text' id='title' name='title', value=book.title || '' placeholder='Enter book title')
+
+                    .form-group
+                        label(for='author') #{t('home.author')}:
+                        if errors
+                            each error in errors
+                                if error.path == 'author'
+                                    .alert.alert-danger #{t('author.not_empty')}
+                        select.form-control(id='author' name='author')
+                            option(value='') Select Author
+                            each author in authors
+                                option(value=author.id, selected=(author.id == book.author.id))= author.first_name
+
+                    .form-group
+                        label(for='summary') #{t('book.summary')}:
+                        if errors
+                            each error in errors
+                                if error.path == 'summary'
+                                    .alert.alert-danger #{t('summary.not_empty')}
+                        textarea.form-control(id='summary' name='summary' rows='3')= book.summary || ''
+                    
+                    .form-group
+                        label(for='isbn') #{t('book.isbn')}:
+                        if errors
+                            each error in errors
+                                if error.path == 'isbn'
+                                    .alert.alert-danger #{t('isbn.not_empty')}
+                        input.form-control(type='text' id='isbn' name='isbn', value=book.isbn || '' placeholder='Enter ISBN')
+
+                    .form-group-genre
+                        label #{t('home.genre')}:
+                        if errors
+                            each error in errors
+                                if error.path == 'genre'
+                                    .alert.alert-danger #{t('genre.not_empty')}
+                        each genre in genres
+                            .form-check
+                                input.form-check-input(type='checkbox' id=`${genre.id}`, name='genre', value=genre.id, checked=(Array.isArray(book.genres) && book.genres.some(g => g.id === genre.id)))
+                                label.form-check-label(for='genre' + genre.id)= genre.name
+                    
+                    button.btn.btn-primary(type='submit') #{t('book.submit')}

@@ -19,9 +19,19 @@ html
                 a(href='/books/create') #{t('home.create_book')}
             .content
                 h1 #{author.first_name} #{author.family_name}
-                p #[strong #{t('author.date_of_birth')}:] #{author.date_of_birth ? author.date_of_birth.toISOString().slice(0, 10) : 'N/A'}
-                p #[strong #{t('author.date_of_death')}:] #{author.date_of_death ? author.date_of_death.toISOString().slice(0, 10) : t('author.died')}
-                p #[strong #{t('author.books')}:]
+                p #[strong #{t('author.born')}:]
+                    if author.date_of_birth
+                        | #{new Date(author.date_of_birth).toISOString().slice(0, 10)}
+                    else
+                        | N/A
+
+                p #[strong #{t('author.died')}:]
+                    if author.date_of_death
+                        | #{new Date(author.date_of_death).toISOString().slice(0, 10)}
+                    else
+                        | #{t('author.born')}
+
+                p #[strong #{t('author.books_count')}:]
                     if books.length > 0
                         each book in books
                             div.book-item
@@ -32,3 +42,6 @@ html
                                     hr
                     else
                         | #{t('author.no_books')}
+                    br
+                    p
+                    a(href=author.getUrl() + '/delete') Delete author

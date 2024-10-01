@@ -20,3 +20,11 @@ export const getAuthorById = async (id: number) => {
     relations: ['books'],  
   });
 };
+
+export const deleteAuthorById = async (id: number): Promise<void> => {
+  await authorRepository.delete(id);
+};
+export const createAuthor = async (authorData: Partial<Author>) => {
+  const newAuthor = authorRepository.create(authorData); // Tạo đối tượng Author từ dữ liệu đầu vào
+  return await authorRepository.save(newAuthor); // Lưu vào cơ sở dữ liệu
+};

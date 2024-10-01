@@ -1,60 +1,124 @@
 body {
   font-family: Arial, sans-serif;
+  background-color: #f8f9fa; 
 }
 
 h1 {
   font-size: 2rem;
-  color: #e41717;
+  color: #e41717; 
 }
 
 h2 {
   font-size: 1.5rem;
-  color: #000;
+  color: #000; 
 }
 
 p {
   font-size: 1.1rem;
+  margin: 10px 0; 
 }
 
 ul {
-  list-style: none;
-  padding: 0;
+  list-style: none; 
+  padding: 0; 
 }
 
 ul li {
   font-size: 1.1rem;
-  margin: 0.5rem 0;
+  margin: 0.5rem 0; 
 }
 
 a {
-  color: #0066cc;
-  text-decoration: none;
+  color: #0066cc; 
+  text-decoration: none; 
 }
 
 a:hover {
-  text-decoration: underline;
+  text-decoration: underline; 
 }
 
 hr {
-  margin: 1rem 0;
+  margin: 1rem 0; 
 }
 
 span {
-  margin: 0 0.5rem;
+  margin: 0 0.5rem; 
 }
 
 .container {
   display: flex; 
   flex-direction: row; 
+  margin: 20px; 
 }
 
 .sidebar {
   width: 25%;
   padding: 10px;
-  border-right: 1px solid #ccc;
+  border-right: 1px solid #ccc; 
 }
 
 .content {
   width: 75%;
   padding: 10px;
+  background-color: #ffffff; 
+  border-radius: 5px; 
 }
+
+form {
+  margin-top: 20px; 
+}
+
+input.form-control {
+  width: 70%; 
+  padding: 10px; 
+  border: 1px solid #ced4da; 
+  border-radius: 5px; 
+  margin-bottom: 10px; 
+}
+
+.btn.btn-primary {
+  width: 50%;
+  padding: 10px 15px; 
+  border-radius: 5px; 
+  border: none; 
+  background-color: #0066cc; 
+  color: #ffffff; 
+  cursor: pointer; 
+  transition: background-color 0.3s; 
+}
+
+.btn.btn-primary:hover {
+  background-color: #0056b3; /* Màu nền khi hover */
+}
+
+input.form-control {
+  width: 70%; 
+  padding: 10px; 
+  border: 1px solid #ced4da; 
+  border-radius: 5px;
+  margin-bottom: 10px; 
+}
+
+label {
+  display: block; 
+  font-weight: bold; 
+  margin-bottom: 5px; 
+}
+
+.form-group-genre {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 10px;
+  align-items: center;
+  text-align: center;
+  margin: 10px;
+}
+
+.form-check {
+  margin-right: 10px;
+}
+
+textarea {
+  width: 70%;
+}
+

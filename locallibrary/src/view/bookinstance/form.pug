@@ -1,0 +1,67 @@
+doctype html
+html
+    head
+        title Create Book Instance
+        link(rel='stylesheet', href='/stylesheet/style.css')
+    body
+        .container
+            .sidebar
+                ul.sidebar-nav
+                    li
+                        a(href='/') #{t('home.welcome')}
+                    li
+                        a(href='/books') #{t('home.book')}
+                    li
+                        a(href='/authors') #{t('home.author')}
+                    li
+                        a(href='/genres') #{t('home.genre')}
+                    li
+                        a(href='/bookInstances') #{t('home.bookinstance')}
+                    hr()
+                    li
+                        a(href='/authors/create') #{t('home.create_author')}
+                    li
+                        a(href='/genres/create') #{t('home.create_genre')}
+                    li
+                        a(href='/books/create') #{t('home.create_book')}
+                    li
+                        a(href='/bookInstances/create') #{t('home.create_bookinstance')}
+            .content
+                h1 #{t('bookinstance.create')}
+                form(action='/bookInstances/create', method='post')
+                    if errors && errors.length > 0
+                        each error in errors
+                            .alert.alert-danger #{error.msg}
+
+                    .form-group
+                        label(for='book') #{t('bookinstance.book')}:
+                        if errors
+                            each error in errors
+                                if error.path == 'book'
+                                    .alert.alert-danger #{t('bookinstance.not_empty')}
+                        select.form-control(name='book', id='book')
+                            option(value='') Select Book
+                            each book in books
+                                option(value=book.id, selected=(bookInstance.book && bookInstance.book.id === book.id)) #{book.title} 
+
+                    .form-group
+                        label(for='imprint') #{t('bookinstance.imprint')}:
+                        if errors
+                            each error in errors
+                                if error.path == 'imprint'
+                                    .alert.alert-danger #{t('bookinstance.imprint_not_empty')}
+                        input.form-control(type='text', id='imprint', name='imprint', value=(bookInstance.imprint || ''), placeholder='Enter imprint')
+
+                    .form-group
+                        label(for='status') #{t('bookinstance.status')}:
+                        select.form-control(name='status', id='status')
+                            option(value='Available', selected=(bookInstance.status === 'Available')) #{t('bookinstance.available')}
+                            option(value='Maintenance', selected=(bookInstance.status === 'Maintenance')) #{t('bookinstance.maintenance')}
+                            option(value='Loaned', selected=(bookInstance.status === 'Loaned')) #{t('bookinstance.loaned')}
+                            option(value='Reserved', selected=(bookInstance.status === 'Reserved')) #{t('bookinstance.reserved')}
+
+                    .form-group
+                        label(for='due_back') #{t('bookinstance.due_back')}:
+                        input.form-control(type='date', id='due_back', name='due_back', value=(bookInstance.due_back ? bookInstance.due_back.toISOString().split('T')[0] : ''))
+
+                    button.btn.btn-primary(type='submit') #{t('book.submit')}

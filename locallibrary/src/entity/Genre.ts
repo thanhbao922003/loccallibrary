@@ -17,6 +17,10 @@ export class Genre {
   }
   
   constructor(genreData?: Partial<Genre>) {
-    this.name = genreData?.name ?? '';
+    if (genreData) {
+      if (genreData.name) {
+        this.name = genreData.name;  
+      }
+    }
   }
 }

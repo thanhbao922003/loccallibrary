@@ -1,0 +1,37 @@
+doctype html
+html
+    head
+        title Create Genre
+        link(rel='stylesheet', href='/stylesheet/style.css')
+    body
+        .container
+            .sidebar
+                a(href='/') Back
+                hr
+                a(href='/books') Books
+                br
+                a(href='/authors') Authors
+                br
+                a(href='/genres') Genres
+                br
+                a(href='/bookinstances') Book Instances
+                hr
+                a(href='/authors/create') Create new Author
+                br
+                a(href='/genres/create') Create new Genre
+                br
+                a(href='/books/create') Create new Book
+                br
+                a(href='/bookinstances/create') Create new Book Instance
+
+            .content
+                h1 Create Genre
+                form(method='POST', action='/genres/create')
+                    .form-group
+                        label(for='name') Genre:
+                        input#name.form-control(type='text', placeholder='Fantasy, Poetry etc.', name='name', required)
+                    button.btn.btn-primary(type='submit') Submit
+                if errors
+                    ul
+                        for error in errors
+                            li!= error.msg

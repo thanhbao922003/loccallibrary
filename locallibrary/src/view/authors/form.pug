@@ -1,0 +1,61 @@
+doctype html
+html
+    head
+        title #{t('home.create_author')}
+        link(rel='stylesheet', href='/stylesheet/style.css')
+    body
+        .container
+                    .sidebar
+                        a(href='/') #{t('home.welcome')}
+                        hr
+                        a(href='/books') #{t('home.book')}
+                        br
+                        a(href='/authors') #{t('home.author')}
+                        br
+                        a(href='/genres') #{t('home.genre')}
+                        br
+                        a(href='/bookinstances') #{t('home.bookinstance')}
+                        hr
+                        a(href='/authors/create') #{t('home.create_author')}
+                        br
+                        a(href='/genres/create') #{t('home.create_genre')}
+                        br
+                        a(href='/books/create') #{t('home.create_book')}
+                        br
+                        a(href='/bookinstances/create') #{t('home.create_bookinstance')}
+                    .content
+                        h1 #{t('home.create_author')}
+                        form(action='/authors/create', method='post')
+                            if errors && errors.length > 0
+                                each error in errors
+                                    .alert.alert-danger #{error.msg}
+                            
+                            .form-group
+                                label(for='first_name') #{t('author.first_name')}:
+                                if errors
+                                    each error in errors
+                                        if error.path == 'first_name'
+                                            .alert.alert-danger #{t('author.first_name_not_empty')}
+                                input.form-control(type='text', id='first_name', name='first_name', value=(author.first_name || ''), placeholder='Enter first name')
+
+                            .form-group
+                                label(for='family_name') #{t('author.family_name')}:
+                                if errors
+                                    each error in errors
+                                        if error.path == 'family_name'
+                                            .alert.alert-danger #{t('author.family_name_not_empty')}
+                                input.form-control(type='text', id='family_name', name='family_name', value=(author.family_name || ''), placeholder='Enter family name')
+
+                            .form-group
+                                label(for='date_of_birth') #{t('author.date_of_birth')}:
+                                if errors
+                                    each error in errors
+                                        if error.path == 'date_of_birth'
+                                            .alert.alert-danger #{t('author.invalid_date_of_birth')}
+                                input.form-control(type='date', id='date_of_birth', name='date_of_birth', value=(author.date_of_birth || ''), placeholder='Enter date of birth')
+
+                            .form-group
+                                label(for='date_of_death') #{t('author.date_of_death')} (Optional):
+                                input.form-control(type='date', id='date_of_death', name='date_of_death', value=(author.date_of_death || ''), placeholder='Enter date of death (if applicable)')
+                            
+                            button.btn.btn-primary(type='submit') #{t('author.submit')}

@@ -1,6 +1,10 @@
 import { Request, Response } from 'express';
 import asyncHandler from 'express-async-handler';
-import { getAllGenres, countGenres, getGenreById } from '@src/services/genre.service';
+import { getAllGenres, countGenres, getGenreById, saveGenre, findGenreByName  } from '@src/services/genre.service';
+import { validationResult } from 'express-validator';
+import { Genre } from '@src/entity/Genre'; 
+import { validateGenre } from '../validations/genreValidate';
+
 
 // Hiển thị danh sách tất cả các Thể loại sách (List)
 export const genreListGet = asyncHandler(async (req: Request, res: Response) => {
@@ -42,13 +46,37 @@ export const genreShowGet = asyncHandler(async (req: Request, res: Response) => 
 
 // Hiển thị trang tạo Thể loại sách mới (Create GET)
 export const genreCreateGet = asyncHandler(async (req: Request, res: Response) => {
-  res.json({ message: 'Hiển thị form tạo thể loại sách mới' });
+  res.render('genres/form', { title: 'Create Genre' });
 });
 
 // Xử lý POST để tạo Thể loại sách mới (Create POST)
-export const genreCreatePost = asyncHandler(async (req: Request, res: Response) => {
-  res.json({ message: 'Xử lý tạo thể loại sách mới' });
-});
+export const genreCreatePost = [
+  ...validateGenre(),
+  asyncHandler(async (req, res) => {
+    const errors = validationResult(req);
+    const genre = new Genre({
+      name: req.body.name 
+    });
+
+
+    if (!errors.isEmpty()) {
+      res.render('genres/form', {
+        title: 'Create Genre',
+        genre: genre,
+        errors: errors.array(),
+      });
+      return;
+    }
+
+    const genreExists = await findGenreByName(req.body.name);
+    if (genreExists) {
+      res.redirect(genreExists.getUrl());
+    } else {
+      const savedGenre = await saveGenre(genre);
+      res.redirect(savedGenre.getUrl());
+    }
+  }),
+];
 
 // Hiển thị trang cập nhật Thể loại sách (Update GET)
 export const genreUpdateGet = asyncHandler(async (req: Request, res: Response) => {
